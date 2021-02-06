@@ -7,7 +7,7 @@ export class WhCombobox extends LitElement {
             .pure-material-textfield-outlined {
             --pure-material-safari-helper1: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
             position: relative;
-            display: inline-block;
+            display: flex;
             padding-top: 6px;
             font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
             font-size: 16px;
@@ -194,17 +194,16 @@ export class WhCombobox extends LitElement {
             }
             }
             }
-            
-            .material-icons {
-                position: absolute;
+
+            .material-icons-outlined {
+            position: absolute;
+            top: 20px;
+            padding-left: 3px;
+
             }
-            
+
             span.label-title::before {
-                padding-left: 1.4em;
-            }
-            
-            input {
-                padding-left: 1.6em;
+            padding-left: 1.4em;
             }
         `;
     }
@@ -227,7 +226,7 @@ export class WhCombobox extends LitElement {
         <link rel="stylesheet" href="./node_modules/material-icons/iconfont/material-icons.css">
         
         <label class="pure-material-textfield-outlined">
-                                <div class="material-icons">home</div>
+           <div class="material-icons-outlined">lock</div>
 
             <input placeholder=" ">
             <span class="label-title">Textfield</span>
