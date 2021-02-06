@@ -24,7 +24,7 @@ export class WhCombobox extends LitElement {
             border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
             border-top-color: transparent;
             border-radius: 4px;
-            padding: 15px 13px 15px 30px;
+            padding: 15px 30px;
             width: 100%;
             height: inherit;
             color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
@@ -195,48 +195,64 @@ export class WhCombobox extends LitElement {
             }
             }
 
-            .material-icons-outlined {
+            .readonly-icon {
             position: absolute;
             top: 20px;
             padding-left: 3px;
-
+            }
+            
+            .arrow-icon {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            cursor: pointer;
             }
 
             span.label-title::before {
             padding-left: 1.4em;
+            }
+            
+            [hidden] {
+            display: none;
             }
         `;
     }
 
     static get properties() {
         return {
-            name: {type: String},
-            count: {type: Number},
+            opened: {
+                type: Boolean
+            }
         };
     }
 
     constructor() {
         super();
-        this.name = 'World';
-        this.count = 0;
+        this.opened = false;
     }
 
     render() {
         return html`
         <link rel="stylesheet" href="./node_modules/material-icons/iconfont/material-icons.css">
         
-        <label class="pure-material-textfield-outlined">
-           <div class="material-icons-outlined">lock</div>
-
-            <input placeholder=" ">
-            <span class="label-title">Textfield</span>
-
-        </label>
+        <div class="main-container">
+            <label class="pure-material-textfield-outlined">
+               <div class="material-icons-outlined readonly-icon">lock</div>
+    
+                <input placeholder=" ">
+                <span class="label-title">Textfield</span>
+            </label>
+            
+            <div class="arrow-icon">
+                <div ?hidden="${this.opened}" class="material-icons-outlined" @click="${this._openOverlay}">keyboard_arrow_down</div>
+                <div ?hidden="${!this.opened}" class="material-icons-outlined" @click="${this._openOverlay}">keyboard_arrow_up</div>
+            </div>
+        </div>
     `;
     }
 
-    _onClick() {
-        this.count++;
+    _openOverlay() {
+        this.opened = !this.opened;
     }
 }
 
