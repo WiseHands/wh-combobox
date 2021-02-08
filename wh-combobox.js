@@ -287,6 +287,9 @@ export class WhCombobox extends LitElement {
       readonly: {
         type: Boolean,
       },
+      value: {
+        type: Object
+      }
     };
   }
 
@@ -296,6 +299,7 @@ export class WhCombobox extends LitElement {
     this.opened = false;
     this.items = [];
     this.readonly = false;
+    this.value = null;
   }
 
   render() {
@@ -319,7 +323,7 @@ export class WhCombobox extends LitElement {
         </label>
 
         <div class="icons-container-right">
-          <div class="material-icons">clear</div>
+          <div class="material-icons" ?hidden=${!this.value}>clear</div>
 
           <div
             ?hidden="${this.opened}"
