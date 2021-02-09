@@ -3,13 +3,7 @@ import {LitElement, html, css} from 'lit-element';
 export class WhCombobox extends LitElement {
   static get styles() {
     return css`
-      .pure-material-textfield-outlined {
-        --pure-material-safari-helper1: rgb(
-          var(--pure-material-primary-rgb, 33, 150, 243)
-        );
-        position: relative;
-        display: flex;
-        padding-top: 6px;
+      :host {
         font-family: var(
           --pure-material-font,
           'Roboto',
@@ -18,6 +12,15 @@ export class WhCombobox extends LitElement {
           system-ui,
           -apple-system
         );
+      }
+
+      .pure-material-textfield-outlined {
+        --pure-material-safari-helper1: rgb(
+          var(--pure-material-primary-rgb, 33, 150, 243)
+        );
+        position: relative;
+        display: flex;
+        padding-top: 6px;
         font-size: 16px;
         line-height: 1.5;
         overflow: hidden;
@@ -244,7 +247,8 @@ export class WhCombobox extends LitElement {
           .pure-material-textfield-outlined > input + span::before,
           .pure-material-textfield-outlined > input + span::after,
           .pure-material-textfield-outlined > textarea + span::before,
-          .pure-material-textfield-outlined > textarea + span::after {
+          .pure-material-textfield-outlined > textarea + span::after,
+          .drop {
             transition-duration: 0.1s;
           }
         }
@@ -269,6 +273,55 @@ export class WhCombobox extends LitElement {
 
       [hidden] {
         display: none;
+      }
+
+      li {
+        color: #6b6b6b;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      li:hover {
+        background: #ebebeb;
+      }
+
+      .drop {
+        position: relative;
+      }
+
+      .drop ul {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        margin-top: 1px;
+        padding-left: 0;
+        transition: all 0.3s ease;
+        transform: scale(1, 0);
+        transform-origin: 0 0;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16),
+          0 2px 8px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .drop ul li {
+        display: block;
+        width: 100%;
+      }
+
+      .drop ul li span {
+        width: 100%;
+        padding: 1em 18px;
+        display: inline-block;
+        white-space: pre;
+        box-sizing: border-box;
+      }
+
+      .drop ul li span:hover {
+        background: #ebebeb;
+      }
+
+      .drop[opened] ul {
+        transform: scale(1);
       }
     `;
   }
@@ -340,6 +393,16 @@ export class WhCombobox extends LitElement {
           >
             keyboard_arrow_up
           </div>
+        </div>
+
+        <div class="drop" ?opened=${this.opened}>
+          <ul>
+            <li><span href="http://www.g.com">Art</span></li>
+            <li><span href="http://www.g.com">Coding</span></li>
+            <li><span href="http://www.g.com">Design</span></li>
+            <li><span href="http://www.g.com">Web Development</span></li>
+          </ul>
+        </li>
         </div>
       </div>
     `;
