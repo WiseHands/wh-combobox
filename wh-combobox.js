@@ -68,7 +68,7 @@ export class WhCombobox extends LitElement {
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.readonly = false;
-    this.value = null;
+    this.value = '';
   }
 
   render() {
@@ -80,12 +80,12 @@ export class WhCombobox extends LitElement {
             lock
           </div>
       
-          <input placeholder=" " />
+          <input .value=${this.value} placeholder=" " @input=${this._search} />
           <span class="label-title">${this.label}</span>
         </label>
       
         <div class="icons-container-right">
-          <div class="material-icons" ?hidden=${!this.value}>clear</div>
+          <div class="material-icons" ?hidden=${!this.value} @click=${this._clearValue}>clear</div>
       
           <div ?hidden="${this.opened}" class="material-icons-outlined" @click="${this._toggleOverlay}">
             keyboard_arrow_down
@@ -96,13 +96,26 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
       
-        <combobox-overlay ?opened=${this.opened} .items=${this.items}></combobox-overlay>
+        <combobox-overlay ?opened=${this.opened} .items=${this.items} @change=${this._setValue}></combobox-overlay>
       </div>
     `;
   }
 
   _toggleOverlay() {
     this.opened = !this.opened;
+  }
+
+  _setValue({detail: value}) {
+    this.value = value;
+    this.opened = false;
+  }
+
+  _clearValue() {
+    this.value = ''
+  }
+
+  _search(event) {
+    console.log(event.currentTarget.value);
   }
 }
 

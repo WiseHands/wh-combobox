@@ -65,15 +65,11 @@ export class comboboxOverlay extends LitElement {
     };
   }
 
-  constructor() {
-    super();
-  }
-
   render() {
     return html`
       <div class="drop" ?opened=${this.opened}>
         <ul>
-          ${this.items.map(item => html`<li @click=${this._setValue}><span>${item}</span></li>`)}
+          ${this.items.map((item, index) => html`<li index=${index} @click=${this._setValue}><span>${item}</span></li>`)}
         </ul>
         </li>
       </div>
@@ -81,7 +77,13 @@ export class comboboxOverlay extends LitElement {
   }
 
   _setValue(event) {
-    console.log(event);
+    const index = +event.currentTarget.getAttribute('index');
+    const customEvent = new CustomEvent('change', {
+      detail: this.items[index],
+      bubbles: true,
+      composed: true
+    });
+    this.dispatchEvent(customEvent);
   }
 }
 
