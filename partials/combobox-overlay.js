@@ -58,6 +58,9 @@ export class comboboxOverlay extends LitElement {
     return {
       opened: {
         type: Boolean
+      },
+      items: {
+        type: Array
       }
     };
   }
@@ -70,14 +73,15 @@ export class comboboxOverlay extends LitElement {
     return html`
       <div class="drop" ?opened=${this.opened}>
         <ul>
-          <li><span>Art</span></li>
-          <li><span>Coding</span></li>
-          <li><span>Design</span></li>
-          <li><span>Web Development</span></li>
+          ${this.items.map(item => html`<li @click=${this._setValue}><span>${item}</span></li>`)}
         </ul>
         </li>
       </div>
     `;
+  }
+
+  _setValue(event) {
+    console.log(event);
   }
 }
 

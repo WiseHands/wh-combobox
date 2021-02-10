@@ -66,7 +66,7 @@ export class WhCombobox extends LitElement {
     super();
     this.label = 'Label';
     this.opened = false;
-    this.items = [];
+    this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.readonly = false;
     this.value = null;
   }
@@ -96,7 +96,7 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
       
-        <combobox-overlay ?opened=${this.opened}></combobox-overlay>
+        <combobox-overlay ?opened=${this.opened} .items=${this.items}></combobox-overlay>
       </div>
     `;
   }
