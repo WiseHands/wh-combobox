@@ -105,13 +105,13 @@ export class WhCombobox extends LitElement {
     this.opened = !this.opened;
   }
 
-  _setValue({detail: value}) {
-    this.value = value;
+  _setValue({ detail: index }) {
+    this.value = this.items[index];
     this.opened = false;
   }
 
   _clearValue() {
-    this.value = ''
+    this.value = '';
   }
 
   _search(event) {
