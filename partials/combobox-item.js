@@ -26,6 +26,10 @@ export class comboboxItem extends LitElement {
       li span:hover {
         background: #ebebeb;
       }
+
+      [selected] {
+        color: dodgerblue;
+      }
     `;
   }
 
@@ -37,12 +41,21 @@ export class comboboxItem extends LitElement {
       index: {
         type: Number,
       },
+      selectedIndex: {
+        type: Number,
+      },
+      selected: {
+        type: Boolean,
+      },
     };
   }
 
   render() {
     return html`
-      <li @click=${this._setValue}>
+      <li
+        @click=${this._setValue}
+        ?selected=${this.selectedIndex === this.index}
+      >
         <span>${this.item}</span>
       </li>
     `;

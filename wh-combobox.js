@@ -59,6 +59,9 @@ export class WhCombobox extends LitElement {
       value: {
         type: Object,
       },
+      selectedIndex: {
+        type: Number
+      }
     };
   }
 
@@ -69,6 +72,7 @@ export class WhCombobox extends LitElement {
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.readonly = false;
     this.value = '';
+    this.selectedIndex = -1;
   }
 
   render() {
@@ -96,7 +100,7 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
       
-        <combobox-overlay ?opened=${this.opened} .items=${this.items} @change=${this._setValue}></combobox-overlay>
+        <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.items} @change=${this._setValue}></combobox-overlay>
       </div>
     `;
   }
@@ -107,10 +111,12 @@ export class WhCombobox extends LitElement {
 
   _setValue({ detail: index }) {
     this.value = this.items[index];
+    this.selectedIndex = index;
     this.opened = false;
   }
 
   _clearValue() {
+    this.selectedIndex = -1;
     this.value = '';
   }
 

@@ -34,6 +34,9 @@ export class comboboxOverlay extends LitElement {
       },
       items: {
         type: Array
+      },
+      selectedIndex: {
+        type: Number
       }
     };
   }
@@ -42,7 +45,7 @@ export class comboboxOverlay extends LitElement {
     return html`
       <div class="drop" ?opened=${this.opened}>
         <ul>
-          ${this.items.map((item, index) => html`<combobox-item index=${index} item=${item}></combobox-item>`)}
+          ${this.items.map((item, index) => html`<combobox-item .selectedIndex=${this.selectedIndex} .index=${index} .item=${item}></combobox-item>`)}
         </ul>
         </li>
       </div>
