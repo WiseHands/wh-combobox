@@ -1,36 +1,9 @@
 import {LitElement, html, css} from 'lit-element';
+import {comboboxItemStyles} from '../styles/combobox-item-styles.js';
 
 export class comboboxItem extends LitElement {
   static get styles() {
-    return css`
-      li {
-        color: #6b6b6b;
-        text-decoration: none;
-        cursor: pointer;
-        display: block;
-        width: 100%;
-      }
-
-      li:hover {
-        background: #ebebeb;
-      }
-
-      li span {
-        width: 100%;
-        padding: 1em 18px;
-        display: inline-block;
-        white-space: pre;
-        box-sizing: border-box;
-      }
-
-      li span:hover {
-        background: #ebebeb;
-      }
-
-      [selected] {
-        color: dodgerblue;
-      }
-    `;
+    return comboboxItemStyles;
   }
 
   static get properties() {
@@ -53,6 +26,7 @@ export class comboboxItem extends LitElement {
   render() {
     return html`
       <li
+        ?hidden=${!this.item}
         @click=${this._setValue}
         ?selected=${this.selectedIndex === this.index}
       >

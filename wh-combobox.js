@@ -53,11 +53,14 @@ export class WhCombobox extends LitElement {
       items: {
         type: Array,
       },
+      filteredItems: {
+        type: Array
+      },
       readonly: {
         type: Boolean,
       },
       value: {
-        type: Object,
+        type: String
       },
       selectedIndex: {
         type: Number
@@ -70,6 +73,7 @@ export class WhCombobox extends LitElement {
     this.label = 'Label';
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
+    this.filteredItems = [];
     this.readonly = false;
     this.value = '';
     this.selectedIndex = -1;
@@ -83,8 +87,7 @@ export class WhCombobox extends LitElement {
           <div ?hidden=${!this.readonly} class="material-icons-outlined readonly-icon">
             lock
           </div>
-      
-          <input .value=${this.value} placeholder=" " @input=${this._search} />
+          <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} @blur=${this._onBlur} />
           <span class="label-title">${this.label}</span>
         </label>
       
@@ -100,9 +103,23 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
       
-        <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.items} @change=${this._setValue}></combobox-overlay>
+        <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.items}
+          @change=${this._setValue}></combobox-overlay>
       </div>
     `;
+  }
+
+  _onFocus() {
+    this.shadowRoot.querySelector('input').value = '';
+    this.opened = true;
+  }
+
+  _onBlur() {
+    this.shadowRoot.querySelector('input').value = this.value;
+  }
+
+  updated(values) {
+    if (values.has('value')) this.opened = false;
   }
 
   _toggleOverlay() {
@@ -112,7 +129,6 @@ export class WhCombobox extends LitElement {
   _setValue({ detail: index }) {
     this.value = this.items[index];
     this.selectedIndex = index;
-    this.opened = false;
   }
 
   _clearValue() {
@@ -120,8 +136,9 @@ export class WhCombobox extends LitElement {
     this.value = '';
   }
 
-  _search(event) {
-    console.log(event.currentTarget.value);
+  _search({ currentTarget }) {
+    const inputValue = currentTarget.value;
+    console.log(inputValue, this.items);
   }
 }
 

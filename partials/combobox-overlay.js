@@ -1,9 +1,12 @@
 import { LitElement, html, css } from 'lit-element';
 import { comboboxItem } from './combobox-item.js';
+import { comboboxItemStyles } from '../styles/combobox-item-styles.js';
 
 export class comboboxOverlay extends LitElement {
   static get styles() {
-    return css`
+    return [
+      comboboxItemStyles,
+      css`
       .drop {
         position: relative;
       }
@@ -24,7 +27,11 @@ export class comboboxOverlay extends LitElement {
       .drop[opened] ul {
         transform: scale(1);
       }
-    `;
+
+      [hidden] {
+        display: none;
+      }
+    `];
   }
 
   static get properties() {
@@ -45,7 +52,11 @@ export class comboboxOverlay extends LitElement {
     return html`
       <div class="drop" ?opened=${this.opened}>
         <ul>
-          ${this.items.map((item, index) => html`<combobox-item .selectedIndex=${this.selectedIndex} .index=${index} .item=${item}></combobox-item>`)}
+          ${this.items.map((item, index) => html`<combobox-item .selectedIndex=${this.selectedIndex} .index=${index}
+            .item=${item}></combobox-item>`)}
+          <li ?hidden=${this.items.length}>
+            <span>No items</span>
+          </li>
         </ul>
         </li>
       </div>
