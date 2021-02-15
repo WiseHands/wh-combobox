@@ -73,7 +73,7 @@ export class WhCombobox extends LitElement {
     this.label = 'Label';
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
-    this.filteredItems = [];
+    this.filteredItems = this.items;
     this.readonly = false;
     this.value = '';
     this.selectedIndex = -1;
@@ -103,7 +103,7 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
       
-        <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.items}
+        <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.filteredItems}
           @change=${this._setValue}></combobox-overlay>
       </div>
     `;
@@ -119,7 +119,11 @@ export class WhCombobox extends LitElement {
   }
 
   updated(values) {
-    if (values.has('value')) this.opened = false;
+    if (values.has('value')) {
+      this.opened = false;
+      this.filteredItems = this.items;
+      this.selectedIndex = this.filteredItems.findIndex(item => item === this.value);
+    }
   }
 
   _toggleOverlay() {
@@ -127,18 +131,16 @@ export class WhCombobox extends LitElement {
   }
 
   _setValue({ detail: index }) {
-    this.value = this.items[index];
-    this.selectedIndex = index;
+    this.value = this.filteredItems[index];
   }
 
   _clearValue() {
-    this.selectedIndex = -1;
     this.value = '';
   }
 
   _search({ currentTarget }) {
-    const inputValue = currentTarget.value;
-    console.log(inputValue, this.items);
+    const inputValue = currentTarget.value.toLowerCase();
+    this.filteredItems = this.items.filter(item => item.toLowerCase().includes(inputValue));
   }
 }
 
