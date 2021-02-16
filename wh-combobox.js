@@ -64,19 +64,27 @@ export class WhCombobox extends LitElement {
       },
       selectedIndex: {
         type: Number
+      },
+      invalid: {
+        type: Boolean
+      },
+      required: {
+        type: Boolean
       }
     };
   }
 
   constructor() {
     super();
-    this.label = 'Label';
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.filteredItems = this.items;
     this.readonly = false;
     this.value = '';
     this.selectedIndex = -1;
+    this.invalid = false;
+    this.required = false;
+    this.label = this.required ? 'Label (Required)' : 'Label';
   }
 
   render() {
@@ -87,7 +95,8 @@ export class WhCombobox extends LitElement {
           <div ?hidden=${!this.readonly} class="material-icons-outlined readonly-icon">
             lock
           </div>
-          <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} @blur=${this._onBlur} />
+          <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} @blur=${this._onBlur}
+            ?invalid=${this.invalid} ?required=${this.required} />
           <span class="label-title">${this.label}</span>
         </label>
       
@@ -102,7 +111,6 @@ export class WhCombobox extends LitElement {
             keyboard_arrow_up
           </div>
         </div>
-      
         <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.filteredItems}
           @change=${this._setValue}></combobox-overlay>
       </div>
@@ -114,17 +122,7 @@ export class WhCombobox extends LitElement {
     this.opened = true;
   }
 
-  _onBlur() {
-    this.shadowRoot.querySelector('input').value = this.value;
-  }
-
-  updated(values) {
-    if (values.has('value')) {
-      this.opened = false;
-      this.filteredItems = this.items;
-      this.selectedIndex = this.filteredItems.findIndex(item => item === this.value);
-    }
-  }
+  _onBlur() {}
 
   _toggleOverlay() {
     this.opened = !this.opened;
@@ -132,15 +130,29 @@ export class WhCombobox extends LitElement {
 
   _setValue({ detail: index }) {
     this.value = this.filteredItems[index];
+    this.filteredItems = this.items;
+    this.selectedIndex = this.filteredItems.findIndex(item => item === this.value);
+    this.shadowRoot.querySelector('input').value = this.value;
+    this.invalid = false;
+    this.opened = false;
+
   }
 
   _clearValue() {
     this.value = '';
+    this.selectedIndex = -1;
+    this.opened = false;
   }
 
   _search({ currentTarget }) {
     const inputValue = currentTarget.value.toLowerCase();
     this.filteredItems = this.items.filter(item => item.toLowerCase().includes(inputValue));
+  }
+
+  validate() {
+    if (!this.required) return true;
+    this.invalid = !this.value;
+    return this.invalid;
   }
 }
 

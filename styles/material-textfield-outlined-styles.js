@@ -173,6 +173,53 @@ export const materialTextfieldOutlinedStyles = css`
     border-top-color: transparent !important;
   }
 
+  /* Invalid */
+  .pure-material-textfield-outlined > input[invalid],
+  .pure-material-textfield-outlined > input[invalid] + span {
+    border-color: red !important;
+    border-top-color: transparent !important;
+    color: red;
+    pointer-events: none;
+  }
+
+  .pure-material-textfield-outlined > input[invalid] + span::before,
+  .pure-material-textfield-outlined > input[invalid] + span::after {
+    border-top-color: red !important;
+  }
+
+  .pure-material-textfield-outlined > input[invalid]:placeholder-shown:not(:focus),
+  .pure-material-textfield-outlined > input[invalid]:placeholder-shown:not(:focus) + span {
+    border-top-color: red !important;
+  }
+
+  .pure-material-textfield-outlined
+    > input[invalid]:placeholder-shown
+    + span::before,
+  .pure-material-textfield-outlined
+    > input[invalid]:placeholder-shown
+    + span::after {
+    border-top-color: transparent !important;
+  }
+
+  .pure-material-textfield-outlined > input[invalid]:focus {
+    border-color: red;
+    border-top-color: transparent;
+    box-shadow: inset 1px 0 red,
+      inset -1px 0 red,
+      inset 0 -1px red;
+    outline: none;
+  }
+
+  .pure-material-textfield-outlined > input[invalid]:focus + span {
+    color: red;
+  }
+
+  .pure-material-textfield-outlined > input[invalid]:focus + span::before,
+  .pure-material-textfield-outlined > input[invalid]:focus + span::after {
+    border-top-color: red !important;
+    box-shadow: inset 0 1px red;
+  }
+
   /* Faster transition in Safari for less noticable fractional font-size issue */
   @media not all and (min-resolution: 0.001dpcm) {
     @supports (-webkit-appearance: none) {

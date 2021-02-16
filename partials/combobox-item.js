@@ -1,5 +1,5 @@
-import {LitElement, html, css} from 'lit-element';
-import {comboboxItemStyles} from '../styles/combobox-item-styles.js';
+import { LitElement, html, css } from 'lit-element';
+import { comboboxItemStyles } from '../styles/combobox-item-styles.js';
 
 export class comboboxItem extends LitElement {
   static get styles() {
@@ -25,11 +25,7 @@ export class comboboxItem extends LitElement {
 
   render() {
     return html`
-      <li
-        ?hidden=${!this.item}
-        @click=${this._setValue}
-        ?selected=${this.selectedIndex === this.index}
-      >
+      <li ?hidden=${!this.item} @click=${this._setValue} ?selected=${this.selectedIndex===this.index}>
         <span>${this.item}</span>
       </li>
     `;
