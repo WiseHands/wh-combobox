@@ -75,12 +75,17 @@ export class WhCombobox extends LitElement {
       },
       required: {
         type: Boolean
+      },
+      // detection for current mouseover/mouseleave events state on overlay
+      isOverlayHovered: {
+        type: Boolean
       }
     };
   }
 
   constructor() {
     super();
+    this.isOverlayHovered = false;
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.filteredItems = this.items;
@@ -117,7 +122,7 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
         <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.filteredItems}
-          @change=${this._setValue}></combobox-overlay>
+          @change=${this._setValue} @set-hover-state=${this._setIsOverlayHovered}></combobox-overlay>
       </div>
     `;
   }
@@ -126,9 +131,12 @@ export class WhCombobox extends LitElement {
     this.opened = true;
   }
 
+  _setIsOverlayHovered({detail: state}) {
+    this.isOverlayHovered = state;
+  }
+
   _onBlur() {
-    const isComboboxItemHover = this.shadowRoot.querySelector('combobox-overlay').shadowRoot.querySelector('combobox-item:hover');
-    if (!isComboboxItemHover) this.opened = false;
+    if (!this.isOverlayHovered) this.opened = false;
   }
 
   _toggleOverlay() {
