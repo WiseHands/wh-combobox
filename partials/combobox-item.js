@@ -31,7 +31,7 @@ export class comboboxItem extends LitElement {
     `;
   }
 
-  _setValue(event) {
+  _setValue() {
     const customEvent = new CustomEvent('change', {
       detail: this.index,
       bubbles: true,

@@ -18,6 +18,10 @@ export class WhCombobox extends LitElement {
           );
         }
 
+        :host([disabled]) {
+          pointer-events: none;
+        }
+
         .readonly-icon {
           position: absolute;
           top: 20px;
@@ -56,8 +60,9 @@ export class WhCombobox extends LitElement {
       filteredItems: {
         type: Array
       },
-      readonly: {
+      disabled: {
         type: Boolean,
+        reflect: true
       },
       value: {
         type: String
@@ -79,7 +84,7 @@ export class WhCombobox extends LitElement {
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
     this.filteredItems = this.items;
-    this.readonly = false;
+    this.disabled = false;
     this.value = '';
     this.selectedIndex = -1;
     this.invalid = false;
@@ -92,11 +97,11 @@ export class WhCombobox extends LitElement {
       <link rel="stylesheet" href="./node_modules/material-icons/iconfont/material-icons.css" />
       <div class="main-container">
         <label class="pure-material-textfield-outlined">
-          <div ?hidden=${!this.readonly} class="material-icons-outlined readonly-icon">
+          <div ?hidden=${!this.disabled} class="material-icons-outlined readonly-icon">
             lock
           </div>
-          <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} @blur=${this._onBlur}
-            ?invalid=${this.invalid} ?required=${this.required} />
+          <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} ?invalid=${this.invalid}
+            ?required=${this.required} ?disabled=${this.disabled} />
           <span class="label-title">${this.label}</span>
         </label>
       
@@ -118,11 +123,8 @@ export class WhCombobox extends LitElement {
   }
 
   _onFocus() {
-    this.shadowRoot.querySelector('input').value = '';
     this.opened = true;
   }
-
-  _onBlur() {}
 
   _toggleOverlay() {
     this.opened = !this.opened;
@@ -135,7 +137,6 @@ export class WhCombobox extends LitElement {
     this.shadowRoot.querySelector('input').value = this.value;
     this.invalid = false;
     this.opened = false;
-
   }
 
   _clearValue() {
