@@ -101,7 +101,7 @@ export class WhCombobox extends LitElement {
             lock
           </div>
           <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} ?invalid=${this.invalid}
-            ?required=${this.required} ?disabled=${this.disabled} />
+            ?required=${this.required} ?disabled=${this.disabled} @blur=${this._onBlur} />
           <span class="label-title">${this.label}</span>
         </label>
       
@@ -126,6 +126,11 @@ export class WhCombobox extends LitElement {
     this.opened = true;
   }
 
+  _onBlur() {
+    const isComboboxItemHover = this.shadowRoot.querySelector('combobox-overlay').shadowRoot.querySelector('combobox-item:hover');
+    if (!isComboboxItemHover) this.opened = false;
+  }
+
   _toggleOverlay() {
     this.opened = !this.opened;
   }
@@ -143,6 +148,7 @@ export class WhCombobox extends LitElement {
     this.value = '';
     this.selectedIndex = -1;
     this.opened = false;
+    this.filteredItems = this.items;
   }
 
   _search({ currentTarget }) {
@@ -154,6 +160,17 @@ export class WhCombobox extends LitElement {
     if (!this.required) return true;
     this.invalid = !this.value;
     return this.invalid;
+  }
+
+  _closeOverlay() {
+
+  }
+
+  shouldUpdate(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      console.log(`${propName} changed. oldValue: ${oldValue}`);
+    });
+    return true;
   }
 }
 
