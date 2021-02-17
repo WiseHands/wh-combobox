@@ -127,6 +127,10 @@ export class WhCombobox extends LitElement {
     `;
   }
 
+  get _input() {
+    return this.shadowRoot.querySelector('input');
+  }
+
   _onFocus() {
     this.opened = true;
   }
@@ -146,13 +150,14 @@ export class WhCombobox extends LitElement {
   _setValue({ detail: index }) {
     this.value = this.items[index];
     this.selectedIndex = index;
-    this.shadowRoot.querySelector('input').value = this.value;
+    this._input.value = this.value;
     this.invalid = false;
     this.opened = false;
   }
 
   _clearValue() {
     this.value = '';
+    this._input.value = '';
     this.selectedIndex = -1;
     this.opened = false;
   }
@@ -173,7 +178,7 @@ export class WhCombobox extends LitElement {
   updated(changedProperties) {
     const isOpenedPropChanged = changedProperties.has('opened');
     if (isOpenedPropChanged && this.opened) {
-      this.shadowRoot.querySelector('input').focus();
+      this._input.focus();
     } else if (isOpenedPropChanged && !this.opened) {
       this.filteredItems = this.items.map((item, index) => ({ title: item, index: index }));
     }
