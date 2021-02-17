@@ -35,7 +35,7 @@ export class WhCombobox extends LitElement {
           cursor: pointer;
         }
 
-        span.label-title::before {
+        :host([disabled]) span.label-title::before {
           padding-left: 1.4em;
         }
 
@@ -140,7 +140,10 @@ export class WhCombobox extends LitElement {
   }
 
   _onBlur() {
-    if (!this.isOverlayHovered) this.opened = false;
+    if (!this.isOverlayHovered) {
+      this.opened = false;
+      this._input.value = this.value;
+    };
   }
 
   _toggleOverlay() {

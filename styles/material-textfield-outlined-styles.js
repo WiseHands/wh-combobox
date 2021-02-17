@@ -21,7 +21,7 @@ export const materialTextfieldOutlinedStyles = css`
     border-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.6);
     border-top-color: transparent;
     border-radius: 4px;
-    padding: 15px 30px;
+    padding: 15px;
     width: 100%;
     height: inherit;
     color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.87);
@@ -32,6 +32,10 @@ export const materialTextfieldOutlinedStyles = css`
     line-height: inherit;
     caret-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
     transition: border 0.2s, box-shadow 0.2s;
+  }
+
+  :host([disabled]) .pure-material-textfield-outlined > input {
+    padding: 15px 30px;
   }
 
   /* Span */
