@@ -28,8 +28,4 @@ export const comboboxItemStyles = css`
       [selected] {
         color: dodgerblue;
       }
-
-      [hidden] {
-        display: none;
-      }
 `;

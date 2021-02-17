@@ -76,7 +76,7 @@ export class WhCombobox extends LitElement {
       required: {
         type: Boolean
       },
-      // detection for current mouseover/mouseleave events state on overlay
+      // detection for current mouseover/mouseleave events state on overlay to handle onblur event correctly
       isOverlayHovered: {
         type: Boolean
       }
