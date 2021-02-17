@@ -122,7 +122,7 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
         <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.filteredItems}
-          @change=${this._setValue} @set-hover-state=${this._setIsOverlayHovered}></combobox-overlay>
+          @change=${this._setValue} @set-hover-state=${this._setIsOverlayHovered} @clear-value=${this._clearValue}></combobox-overlay>
       </div>
     `;
   }
@@ -145,7 +145,6 @@ export class WhCombobox extends LitElement {
 
   _setValue({ detail: index }) {
     this.value = this.filteredItems[index];
-    this.filteredItems = this.items;
     this.selectedIndex = this.filteredItems.findIndex(item => item === this.value);
     this.shadowRoot.querySelector('input').value = this.value;
     this.invalid = false;
@@ -156,7 +155,6 @@ export class WhCombobox extends LitElement {
     this.value = '';
     this.selectedIndex = -1;
     this.opened = false;
-    this.filteredItems = this.items;
   }
 
   _search({ currentTarget }) {
@@ -167,17 +165,17 @@ export class WhCombobox extends LitElement {
   validate() {
     if (!this.required) return true;
     this.invalid = !this.value;
-    return this.invalid;
+    return !this.invalid;
   }
 
-  _closeOverlay() {
+  updated(changedProperties) {
+    const isOpenedPropChanged = changedProperties.has('opened');
+    if (isOpenedPropChanged && this.opened) {
+      this.shadowRoot.querySelector('input').focus();
+    } else if (isOpenedPropChanged && !this.opened) {
+      this.filteredItems = this.items;
+    }
 
-  }
-
-  shouldUpdate(changedProperties) {
-    changedProperties.forEach((oldValue, propName) => {
-      console.log(`${propName} changed. oldValue: ${oldValue}`);
-    });
     return true;
   }
 }

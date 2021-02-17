@@ -54,7 +54,7 @@ export class comboboxOverlay extends LitElement {
         <ul @mouseenter=${() => this._setHoverState(true)}}  @mouseleave=${() => this._setHoverState(false)}}>
           ${this.items.map((item, index) => html`<combobox-item .selectedIndex=${this.selectedIndex} .index=${index}
             .item=${item}></combobox-item>`)}
-          <li ?hidden=${this.items.length}>
+          <li ?hidden=${this.items.length} @click=${this._clearValue}>
             <span>No items</span>
           </li>
         </ul>
@@ -67,7 +67,15 @@ export class comboboxOverlay extends LitElement {
     const customEvent = new CustomEvent('set-hover-state', {
       detail: state,
       bubbles: true,
-      composed: true,
+      composed: true
+    });
+    this.dispatchEvent(customEvent);
+  }
+
+  _clearValue() {
+    const customEvent = new CustomEvent('clear-value', {
+      bubbles: true,
+      composed: true
     });
     this.dispatchEvent(customEvent);
   }
