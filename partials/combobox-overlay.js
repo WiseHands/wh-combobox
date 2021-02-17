@@ -51,9 +51,8 @@ export class comboboxOverlay extends LitElement {
   render() {
     return html`
       <div class="drop" ?opened=${this.opened}>
-        <ul @mouseenter=${() => this._setHoverState(true)}}  @mouseleave=${() => this._setHoverState(false)}}>
-          ${this.items.map((item, index) => html`<combobox-item .selectedIndex=${this.selectedIndex} .index=${index}
-            .item=${item}></combobox-item>`)}
+        <ul @mouseenter=${()=> this._setHoverState(true)}} @mouseleave=${() => this._setHoverState(false)}}>
+          ${this.items.map(item => html`<combobox-item .selectedIndex=${this.selectedIndex} .item=${item}></combobox-item>`)}
           <li ?hidden=${this.items.length} @click=${this._clearValue}>
             <span>No items</span>
           </li>

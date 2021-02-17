@@ -88,7 +88,7 @@ export class WhCombobox extends LitElement {
     this.isOverlayHovered = false;
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
-    this.filteredItems = this.items;
+    this.filteredItems = this.items.map((item, index) => ({title: item, index: index}));
     this.disabled = false;
     this.value = '';
     this.selectedIndex = -1;
@@ -144,8 +144,8 @@ export class WhCombobox extends LitElement {
   }
 
   _setValue({ detail: index }) {
-    this.value = this.filteredItems[index];
-    this.selectedIndex = this.filteredItems.findIndex(item => item === this.value);
+    this.value = this.items[index];
+    this.selectedIndex = index;
     this.shadowRoot.querySelector('input').value = this.value;
     this.invalid = false;
     this.opened = false;
@@ -159,7 +159,9 @@ export class WhCombobox extends LitElement {
 
   _search({ currentTarget }) {
     const inputValue = currentTarget.value.toLowerCase();
-    this.filteredItems = this.items.filter(item => item.toLowerCase().includes(inputValue));
+    const filteredItems = [];
+    this.items.forEach((item, index) => item.toLowerCase().includes(inputValue) && filteredItems.push({title: item, index: index}));
+    this.filteredItems = filteredItems;
   }
 
   validate() {
@@ -173,7 +175,7 @@ export class WhCombobox extends LitElement {
     if (isOpenedPropChanged && this.opened) {
       this.shadowRoot.querySelector('input').focus();
     } else if (isOpenedPropChanged && !this.opened) {
-      this.filteredItems = this.items;
+      this.filteredItems = this.items.map((item, index) => ({ title: item, index: index }));
     }
 
     return true;

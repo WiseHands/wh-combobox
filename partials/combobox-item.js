@@ -9,10 +9,7 @@ export class comboboxItem extends LitElement {
   static get properties() {
     return {
       item: {
-        type: String,
-      },
-      index: {
-        type: Number,
+        type: Object,
       },
       selectedIndex: {
         type: Number,
@@ -25,15 +22,15 @@ export class comboboxItem extends LitElement {
 
   render() {
     return html`
-      <li ?hidden=${!this.item} @click=${this._setValue} ?selected=${this.selectedIndex===this.index}>
-        <span>${this.item}</span>
+      <li ?hidden=${!this.item} @click=${this._setValue} ?selected=${this.selectedIndex === this.item.index}>
+        <span>${this.item.title}</span>
       </li>
     `;
   }
 
   _setValue() {
     const customEvent = new CustomEvent('change', {
-      detail: this.index,
+      detail: this.item.index,
       bubbles: true,
       composed: true,
     });
