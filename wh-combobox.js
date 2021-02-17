@@ -179,14 +179,13 @@ export class WhCombobox extends LitElement {
   }
 
   updated(changedProperties) {
-    const isOpenedPropChanged = changedProperties.has('opened');
-    if (isOpenedPropChanged && this.opened) {
-      this._input.focus();
-    } else if (isOpenedPropChanged && !this.opened) {
-      this.filteredItems = this.items.map((item, index) => ({ title: item, index: index }));
-    }
-
+    if (changedProperties.has('opened')) this._onOpenedPropUpdated(this.opened);
     return true;
+  }
+
+  _onOpenedPropUpdated(value) {
+    if (value) this._input.focus();
+    else this.filteredItems = this.items.map((item, index) => ({ title: item, index: index }));
   }
 }
 
