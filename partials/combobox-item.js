@@ -29,7 +29,7 @@ export class comboboxItem extends LitElement {
   }
 
   _setValue() {
-    const customEvent = new CustomEvent('change', {
+    const customEvent = new CustomEvent('set-value', {
       detail: this.item.index,
       bubbles: true,
       composed: true,

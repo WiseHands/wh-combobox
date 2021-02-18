@@ -42,6 +42,10 @@ export class WhCombobox extends LitElement {
         [hidden] {
           display: none;
         }
+
+        i {
+          padding-left: .5em;
+        }
       `,
     ];
   }
@@ -88,13 +92,13 @@ export class WhCombobox extends LitElement {
     this.isOverlayHovered = false;
     this.opened = false;
     this.items = ['Apple', 'Banana', 'Pussy', 'I will fuck you like a pig!', 'Bitch'];
-    this.filteredItems = this.items.map((item, index) => ({title: item, index: index}));
+    this.filteredItems = this.items.map((item, index) => ({ title: item, index: index }));
     this.disabled = false;
     this.value = '';
     this.selectedIndex = -1;
     this.invalid = false;
     this.required = false;
-    this.label = this.required ? 'Label (Required)' : 'Label';
+    this.label = 'Label';
   }
 
   render() {
@@ -107,7 +111,7 @@ export class WhCombobox extends LitElement {
           </div>
           <input .value=${this.value} placeholder=" " @input=${this._search} @focus=${this._onFocus} ?invalid=${this.invalid}
             ?required=${this.required} ?disabled=${this.disabled} @blur=${this._onBlur} />
-          <span class="label-title">${this.label}</span>
+          <span class="label-title">${this.label} <i ?hidden=${!this.required}>(Required)</i></span>
         </label>
       
         <div class="icons-container-right">
@@ -122,7 +126,8 @@ export class WhCombobox extends LitElement {
           </div>
         </div>
         <combobox-overlay .selectedIndex=${this.selectedIndex} .opened=${this.opened} .items=${this.filteredItems}
-          @change=${this._setValue} @set-hover-state=${this._setIsOverlayHovered} @clear-value=${this._clearValue}></combobox-overlay>
+          @set-value=${this._setValue} @set-hover-state=${this._setIsOverlayHovered} @clear-value=${this._clearValue}>
+        </combobox-overlay>
       </div>
     `;
   }
@@ -135,7 +140,7 @@ export class WhCombobox extends LitElement {
     this.opened = true;
   }
 
-  _setIsOverlayHovered({detail: state}) {
+  _setIsOverlayHovered({ detail: state }) {
     this.isOverlayHovered = state;
   }
 
@@ -156,6 +161,7 @@ export class WhCombobox extends LitElement {
     this._input.value = this.value;
     this.invalid = false;
     this.opened = false;
+    this._fireChangeEvent(this.value);
   }
 
   _clearValue() {
@@ -163,12 +169,22 @@ export class WhCombobox extends LitElement {
     this._input.value = '';
     this.selectedIndex = -1;
     this.opened = false;
+    this._fireChangeEvent(this.value);
+  }
+
+  _fireChangeEvent(value) {
+    const customEvent = new CustomEvent('change', {
+      detail: value,
+      bubbles: true,
+      composed: true
+    });
+    this.dispatchEvent(customEvent);
   }
 
   _search({ currentTarget }) {
     const inputValue = currentTarget.value.toLowerCase();
     const filteredItems = [];
-    this.items.forEach((item, index) => item.toLowerCase().includes(inputValue) && filteredItems.push({title: item, index: index}));
+    this.items.forEach((item, index) => item.toLowerCase().includes(inputValue) && filteredItems.push({ title: item, index: index }));
     this.filteredItems = filteredItems;
   }
 
